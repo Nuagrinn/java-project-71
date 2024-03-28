@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Differ {
 
@@ -25,26 +28,28 @@ public class Differ {
             Map<String, Object> mapJson2 =objectMapper.readValue(stringJson2,
                     new TypeReference<Map<String, Object>>() { });
 
-//            mapJson1.forEach((k,v) -> System.out.println(k + ": " + v));
-//            System.out.println("------------------------------------------");
-//            mapJson2.forEach((k,v) -> System.out.println(k + ": " + v));
 
             var keyList1 = mapJson1.keySet().stream().sorted().toList();
             var keyList2 = mapJson2.keySet().stream().sorted().toList();
+            List<String> combinedKeyList = Stream.concat(keyList1.stream(), keyList2.stream())
+                    .distinct()
+                    .sorted()
+                    .toList();
 
-//            TODO: дописать обход чтобы учитывались новые значения из keyList2
-            // вар1: поочередный обход 1ого и 2ого массива и сравнение элементов
             System.out.println("{");
-            for(var k : keyList1) {
-                if(mapJson2.containsKey(k)) {
-                    if(mapJson1.get(k).equals(mapJson2.get(k))) {
-                        System.out.println("  " + k + ": " + mapJson1.get(k));
+            for (var k : combinedKeyList) {
+                if (keyList1.contains(k) && keyList2.contains(k)) {
+                    if (mapJson1.get(k).equals(mapJson2.get(k))) {
+                        System.out.println("   " + k + ": " + mapJson1.get(k));
                     } else {
-                        System.out.println("- " + k + ": " + mapJson1.get(k));
-                        System.out.println("+ " + k + ": " + mapJson2.get(k));
+                        System.out.println(" - " + k + ": " + mapJson1.get(k));
+                        System.out.println(" + " + k + ": " + mapJson2.get(k));
                     }
+
+                } else if (keyList1.contains(k)) {
+                    System.out.println(" - " + k + ": " + mapJson1.get(k));
                 } else {
-                    System.out.println("- " + k + ": " + mapJson1.get(k));
+                    System.out.println(" + " + k + ": " + mapJson2.get(k));
                 }
             }
             System.out.println("}");
