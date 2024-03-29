@@ -37,7 +37,7 @@ public class App implements  Callable<Integer> {
 
 
     public static void main(String[] args) {
-        args = new String[]{"src/main/java/hexlet/code/data1.json", "src/main/java/hexlet/code/data2.json", "111"};
+        args = new String[]{"src/main/java/hexlet/code/data1.json", "src/main/java/hexlet/code/data2.json"};
         int exitCode = new CommandLine(new App()).execute(args);
         System.exit(exitCode);
     }
