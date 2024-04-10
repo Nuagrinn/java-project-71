@@ -9,55 +9,64 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
 import java.util.stream.Stream;
 
 public class Differ {
 
-    public static void generate(String path1, String path2) {
-        try {
+    public static String generate(String path1, String path2) throws Exception {
 
-            Path filePath1 = Paths.get(path1);
-            Path filePath2 = Paths.get(path2);
-            String stringJson1 = new String(Files.readAllBytes(filePath1));
-            String stringJson2 = new String(Files.readAllBytes(filePath2));
-            ObjectMapper objectMapper = new ObjectMapper();
+        var mapJson1 = getData(path1);
+        var mapJson2 = getData(path2);
 
-            Map<String, Object> mapJson1 = objectMapper.readValue(stringJson1,
-                    new TypeReference<Map<String, Object>>() { });
-            Map<String, Object> mapJson2 =objectMapper.readValue(stringJson2,
-                    new TypeReference<Map<String, Object>>() { });
+        var keyList1 = mapJson1.keySet().stream().sorted().toList();
+        var keyList2 = mapJson2.keySet().stream().sorted().toList();
 
+        List<String> combinedKeyList = Stream.concat(keyList1.stream(), keyList2.stream())
+                .distinct()
+                .sorted()
+                .toList();
 
-            var keyList1 = mapJson1.keySet().stream().sorted().toList();
-            var keyList2 = mapJson2.keySet().stream().sorted().toList();
-            List<String> combinedKeyList = Stream.concat(keyList1.stream(), keyList2.stream())
-                    .distinct()
-                    .sorted()
-                    .toList();
+        StringBuilder jsonBuilder = new StringBuilder();
+        jsonBuilder.append("{");
 
-            System.out.println("{");
-            for (var k : combinedKeyList) {
-                if (keyList1.contains(k) && keyList2.contains(k)) {
-                    if (mapJson1.get(k).equals(mapJson2.get(k))) {
-                        System.out.println("   " + k + ": " + mapJson1.get(k));
-                    } else {
-                        System.out.println(" - " + k + ": " + mapJson1.get(k));
-                        System.out.println(" + " + k + ": " + mapJson2.get(k));
-                    }
-
-                } else if (keyList1.contains(k)) {
-                    System.out.println(" - " + k + ": " + mapJson1.get(k));
+        for (var k : combinedKeyList) {
+            if (keyList1.contains(k) && keyList2.contains(k)) {
+                if (mapJson1.get(k).equals(mapJson2.get(k))) {
+                    jsonBuilder.append("\n   ").append(k).append(": ").append(mapJson1.get(k));
                 } else {
-                    System.out.println(" + " + k + ": " + mapJson2.get(k));
+                    jsonBuilder.append("\n - ").append(k).append(": ").append(mapJson1.get(k))
+                            .append("\n + ").append(k).append(": ").append(mapJson2.get(k));
                 }
+            } else if (keyList1.contains(k)) {
+                jsonBuilder.append("\n - ").append(k).append(": ").append(mapJson1.get(k));
+            } else {
+                jsonBuilder.append("\n + ").append(k).append(": ").append(mapJson2.get(k));
             }
-            System.out.println("}");
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+
+        jsonBuilder.append("\n}");
+
+        return jsonBuilder.toString();
+
+    }
+
+    public static  Map<String, Object> getData(String path) throws Exception {
+        if (path == null || path.isEmpty()) {
+            throw new IllegalArgumentException("Path cannot be null or empty");
+        }
+
+        Path filePath = Paths.get(path);
+        if (!Files.exists(filePath) || !Files.isReadable(filePath)) {
+            throw new IOException("File does not exist or is not readable: " + path);
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String stringJson = new String(Files.readAllBytes(filePath));
+        Map<String, Object> mapJson = objectMapper.readValue(stringJson,
+                new TypeReference<Map<String, Object>>() { });
+
+        return mapJson;
 
     }
 
