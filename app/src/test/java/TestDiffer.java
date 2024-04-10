@@ -1,14 +1,11 @@
 import hexlet.code.Differ;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import java.util.stream.IntStream;
-
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestDiffer {
     @Test
     public void testGenerate() throws Exception {
