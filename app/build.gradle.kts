@@ -22,19 +22,17 @@ dependencies {
 
 jacoco {
     toolVersion = "0.8.11"
-    reportsDirectory = layout.buildDirectory.dir("customJacocoReportDir")
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-tasks.jacocoTestReport {
-    dependsOn(tasks.test)
+tasks.test {
+    useJUnitPlatform()
 }
 
-tasks.test {
-    finalizedBy(tasks.jacocoTestReport)
-}
+tasks.jacocoTestReport { reports { xml.required.set(true) } }
+
 
 
