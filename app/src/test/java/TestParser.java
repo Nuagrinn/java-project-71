@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class TestParser {
@@ -22,11 +23,28 @@ public class TestParser {
     }
 
     @Test
-    public void testParseFile() throws Exception {
-
+    public void testParseJson() throws Exception {
+        Parser parser = new Parser();
         String jsonPath = "src/test/resources/data1.json";
-        Map<String, Object> result = Parser.getData(jsonPath);
+        Map<String, Object> result = parser.getData(jsonPath);
         assertEquals(expectedParsed, result);
+
+    }
+
+    @Test
+    public void testParseYAML() throws Exception {
+        Parser parser = new Parser();
+        String yamlPath = "src/test/resources/data1.yaml";
+        Map<String, Object> result = parser.getData(yamlPath);
+        assertEquals(expectedParsed, result);
+
+    }
+
+    @Test
+    public void testParseError() throws Exception {
+        Parser parser = new Parser();
+        String errorFilePath = "src/test/resources/data3.txt";
+        assertThrows(Exception.class, () -> parser.getData(errorFilePath));
 
     }
 

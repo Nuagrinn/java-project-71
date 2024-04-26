@@ -14,7 +14,7 @@ application { mainClass.set("hexlet.code.App") }
 dependencies {
     implementation("info.picocli:picocli:4.6.1")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
-
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.14.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 

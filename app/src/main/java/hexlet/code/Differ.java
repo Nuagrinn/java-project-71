@@ -5,10 +5,13 @@ import java.util.stream.Stream;
 
 public class Differ {
 
+
     public static String generate(String path1, String path2) throws Exception {
 
-        var mapJson1 = Parser.getData(path1);
-        var mapJson2 = Parser.getData(path2);
+        Parser parser = new Parser();
+
+        var mapJson1 = parser.getData(path1);
+        var mapJson2 = parser.getData(path2);
 
         var keyList1 = mapJson1.keySet().stream().sorted().toList();
         var keyList2 = mapJson2.keySet().stream().sorted().toList();
