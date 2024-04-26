@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TestDiffer {
     @Test
-    public void testGenerate() throws Exception {
+    public void testGenJsonDiff() throws Exception {
 
         String data1Path = "src/test/resources/data1.json";
         String data2Path = "src/test/resources/data2.json";

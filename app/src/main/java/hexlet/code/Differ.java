@@ -1,23 +1,14 @@
 package hexlet.code;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
-
 import java.util.stream.Stream;
 
 public class Differ {
 
     public static String generate(String path1, String path2) throws Exception {
 
-        var mapJson1 = getData(path1);
-        var mapJson2 = getData(path2);
+        var mapJson1 = Parser.getData(path1);
+        var mapJson2 = Parser.getData(path2);
 
         var keyList1 = mapJson1.keySet().stream().sorted().toList();
         var keyList2 = mapJson2.keySet().stream().sorted().toList();
@@ -51,23 +42,5 @@ public class Differ {
 
     }
 
-    public static  Map<String, Object> getData(String path) throws Exception {
-        if (path == null || path.isEmpty()) {
-            throw new IllegalArgumentException("Path cannot be null or empty");
-        }
-
-        Path filePath = Paths.get(path);
-        if (!Files.exists(filePath) || !Files.isReadable(filePath)) {
-            throw new IOException("File does not exist or is not readable: " + path);
-        }
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        String stringJson = new String(Files.readAllBytes(filePath));
-        Map<String, Object> mapJson = objectMapper.readValue(stringJson,
-                new TypeReference<Map<String, Object>>() { });
-
-        return mapJson;
-
-    }
 
 }
