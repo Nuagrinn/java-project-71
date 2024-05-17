@@ -38,7 +38,7 @@ public class App implements  Callable<Integer> {
 
     public static void main(String[] args) {
 
-//        args = new String[]{"app/src/main/java/hexlet/code/data1.json", "app/src/main/java/hexlet/code/data2.json"};
+        args = new String[]{"app/src/main/java/hexlet/code/data1.json", "app/src/main/java/hexlet/code/data2.json"};
         int exitCode = new CommandLine(new App()).execute(args);
         System.exit(exitCode);
 
@@ -49,7 +49,7 @@ public class App implements  Callable<Integer> {
     public Integer call() throws Exception {
 
         System.out.println("--------- Generate diff! ---------");
-//        System.out.println(Differ.generate(filePath1, filePath2));
+        System.out.println(Differ.generate(filePath1, filePath2));
         return 0;
 
     }
