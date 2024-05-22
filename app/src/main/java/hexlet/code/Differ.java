@@ -19,6 +19,6 @@ public class Differ {
 
         var diff = diffBuilder.build(mapJson1, mapJson2);
 
-        return JsonFormatter.formatt(diff, format);
+        return Formatter.formatt(diff, format);
     }
 }
