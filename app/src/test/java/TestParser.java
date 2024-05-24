@@ -41,7 +41,7 @@ public class TestParser {
     }
 
     @Test
-    public void testParseError() throws Exception {
+    public void testParseError() {
         Parser parser = new Parser();
         String errorFilePath = "src/test/resources/data3.txt";
         assertThrows(Exception.class, () -> parser.getData(errorFilePath));
