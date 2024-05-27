@@ -22,12 +22,11 @@ public class PlainFormatter {
                             key, prevValue, actualValue));
                     break;
                 case "deleted":
-                    prevValue = formatValue(node.get("prevValue"));
                     result.append(String.format("Property '%s' was removed\n", key));
                     break;
                 case "new":
-                    actualValue = formatValue(node.get("actualValue"));
-                    result.append(String.format("Property '%s' was added with value: %s\n", key, actualValue));
+                    String newValue = formatValue(node.get("actualValue"));
+                    result.append(String.format("Property '%s' was added with value: %s\n", key, newValue));
                     break;
                 default:
                     throw new Exception("Unexpected state");
@@ -41,10 +40,10 @@ public class PlainFormatter {
         if (value == null) {
             return "null";
         }
-        if (value.startsWith("{") || value.startsWith("[") || value.startsWith("complex value")) {
+        if (value.startsWith("{") || value.startsWith("[") || value.equals("[complex value]")) {
             return "[complex value]";
         }
-        if (value.equals("true") || value.equals("false") || value.matches("\\d+")) {
+        if (value.equals("true") || value.equals("false") || value.matches("-?\\d+(\\.\\d+)?")) {
             return value;
         }
         return String.format("'%s'", value);
