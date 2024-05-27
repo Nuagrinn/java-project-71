@@ -18,7 +18,8 @@ public class PlainFormatter {
                 case "changed":
                     String prevValue = formatValue(node.get("prevValue"));
                     String actualValue = formatValue(node.get("actualValue"));
-                    result.append("Property '" + key + "' was updated. From " + prevValue + " to " + actualValue + "\n");
+                    result.append("Property '" + key + "' was updated. From " + prevValue + " to " + actualValue
+                            + "\n");
                     break;
                 case "deleted":
                     result.append("Property '" + key + "' was removed\n");
