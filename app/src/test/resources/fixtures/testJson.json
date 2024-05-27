@@ -2,7 +2,7 @@
   {
     "state": "deleted",
     "key": "follow",
-    "prevValue": "false"
+    "prevValue": false
   },
   {
     "actualValue": "hexlet.io",
@@ -15,13 +15,13 @@
     "prevValue": "123.234.53.22"
   },
   {
-    "actualValue": "20",
+    "actualValue": 20,
     "state": "changed",
     "key": "timeout",
-    "prevValue": "50"
+    "prevValue": 50
   },
   {
-    "actualValue": "true",
+    "actualValue": true,
     "state": "new",
     "key": "verbose"
   }

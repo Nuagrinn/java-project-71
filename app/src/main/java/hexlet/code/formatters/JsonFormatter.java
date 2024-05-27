@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class JsonFormatter {
 
-    public static String formatt(List<Map<String, String>> diff) throws Exception {
+    public static String formatt(List<Map<String, Object>> diff) throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
 

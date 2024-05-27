@@ -5,12 +5,12 @@ import java.util.Map;
 
 public class PlainFormatter {
 
-    public static String format(List<Map<String, String>> diff) throws Exception {
+    public static String format(List<Map<String, Object>> diff) throws Exception {
         StringBuilder result = new StringBuilder();
 
-        for (Map<String, String> node : diff) {
-            String key = node.get("key");
-            String state = node.get("state");
+        for (Map<String, Object> node : diff) {
+            String key = (String) node.get("key");
+            String state = (String) node.get("state");
 
             switch (state) {
                 case "notchanged":
@@ -18,8 +18,7 @@ public class PlainFormatter {
                 case "changed":
                     String prevValue = formatValue(node.get("prevValue"));
                     String actualValue = formatValue(node.get("actualValue"));
-                    result.append("Property '" + key + "' was updated. From " + prevValue + " to " + actualValue
-                            + "\n");
+                    result.append("Property '" + key + "' was updated. From " + prevValue + " to " + actualValue + "\n");
                     break;
                 case "deleted":
                     result.append("Property '" + key + "' was removed\n");
@@ -36,16 +35,16 @@ public class PlainFormatter {
         return result.toString().trim();
     }
 
-    private static String formatValue(String value) {
+    private static String formatValue(Object value) {
         if (value == null) {
             return "null";
         }
-        if (value.startsWith("{") || value.startsWith("[") || value.equals("[complex value]")) {
+        if (value instanceof String) {
+            return "'" + value + "'";
+        }
+        if (value instanceof Map || value instanceof List) {
             return "[complex value]";
         }
-        if (value.equals("true") || value.equals("false") || value.matches("-?\\d+(\\.\\d+)?")) {
-            return value;
-        }
-        return "'" + value + "'";
+        return value.toString();
     }
 }

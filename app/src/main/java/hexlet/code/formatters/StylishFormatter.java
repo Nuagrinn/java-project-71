@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class StylishFormatter {
 
-    public static String formatt(List<Map<String, String>> diff) {
+    public static String formatt(List<Map<String, Object>> diff) {
 
         StringBuilder sb = new StringBuilder();
 

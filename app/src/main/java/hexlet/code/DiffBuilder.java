@@ -8,9 +8,9 @@ import java.util.stream.Stream;
 
 public class DiffBuilder {
 
-    private List<Map<String, String>> diff = new ArrayList<>();
+    private List<Map<String, Object>> diff = new ArrayList<>();
 
-    public List<Map<String, String>> build(Map<String, Object> map1, Map<String, Object> map2) {
+    public List<Map<String, Object>> build(Map<String, Object> map1, Map<String, Object> map2) {
 
         var keySet1 = map1.keySet().stream().toList();
         var keySet2 = map2.keySet().stream().toList();
@@ -21,36 +21,33 @@ public class DiffBuilder {
                 .toList();
 
         for (String k : combinedKeyList) {
-            Map<String, String> node = new HashMap<>();
+            Map<String, Object> node = new HashMap<>();
             boolean containsKey1 = keySet1.contains(k);
             boolean containsKey2 = keySet2.contains(k);
             Object value1 = map1.get(k);
             Object value2 = map2.get(k);
 
+            node.put("key", k);
+
             if (containsKey1 && containsKey2) {
                 if (value1 != null && value1.equals(value2)) {
-                    node.put("key", k);
                     node.put("state", "notchanged");
-                    node.put("actualValue", value1.toString());
+                    node.put("actualValue", value1);
                 } else {
-                    node.put("key", k);
                     node.put("state", "changed");
-                    node.put("prevValue", value1 != null ? value1.toString() : "null");
-                    node.put("actualValue", value2 != null ? value2.toString() : "null");
+                    node.put("prevValue", value1);
+                    node.put("actualValue", value2);
                 }
             } else if (containsKey1) {
-                node.put("key", k);
                 node.put("state", "deleted");
-                node.put("prevValue", value1 != null ? value1.toString() : "null");
+                node.put("prevValue", value1);
             } else {
-                node.put("key", k);
                 node.put("state", "new");
-                node.put("actualValue", value2 != null ? value2.toString() : "null");
+                node.put("actualValue", value2);
             }
             diff.add(node);
         }
 
         return diff;
     }
-
 }
