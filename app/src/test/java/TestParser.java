@@ -25,7 +25,7 @@ public class TestParser {
     @Test
     public void testParseJson() throws Exception {
         Parser parser = new Parser();
-        String jsonPath = "src/test/resources/data1.json";
+        String jsonPath = "src/test/resources/fixtures/data1.json";
         Map<String, Object> result = parser.getData(jsonPath);
         assertEquals(expectedParsed, result);
 
@@ -34,7 +34,7 @@ public class TestParser {
     @Test
     public void testParseYAML() throws Exception {
         Parser parser = new Parser();
-        String yamlPath = "src/test/resources/data1.yaml";
+        String yamlPath = "src/test/resources/fixtures/data1.yaml";
         Map<String, Object> result = parser.getData(yamlPath);
         assertEquals(expectedParsed, result);
 
@@ -43,7 +43,7 @@ public class TestParser {
     @Test
     public void testParseError() {
         Parser parser = new Parser();
-        String errorFilePath = "src/test/resources/data3.txt";
+        String errorFilePath = "src/test/resources/fixtures/data3.txt";
         assertThrows(Exception.class, () -> parser.getData(errorFilePath));
 
     }
