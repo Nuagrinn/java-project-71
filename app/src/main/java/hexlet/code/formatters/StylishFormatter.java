@@ -6,7 +6,7 @@ import java.util.Map;
 public class StylishFormatter {
 
     public static String formatt(List<Map<String, String>> diff) {
-        
+
         StringBuilder sb = new StringBuilder();
 
         sb.append("{");
