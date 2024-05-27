@@ -18,15 +18,14 @@ public class PlainFormatter {
                 case "changed":
                     String prevValue = formatValue(node.get("prevValue"));
                     String actualValue = formatValue(node.get("actualValue"));
-                    result.append(String.format("Property '%s' was updated. From %s to %s\n",
-                            key, prevValue, actualValue));
+                    result.append("Property '" + key + "' was updated. From " + prevValue + " to " + actualValue + "\n");
                     break;
                 case "deleted":
-                    result.append(String.format("Property '%s' was removed\n", key));
+                    result.append("Property '" + key + "' was removed\n");
                     break;
                 case "new":
                     String newValue = formatValue(node.get("actualValue"));
-                    result.append(String.format("Property '%s' was added with value: %s\n", key, newValue));
+                    result.append("Property '" + key + "' was added with value: " + newValue + "\n");
                     break;
                 default:
                     throw new Exception("Unexpected state");
@@ -46,6 +45,6 @@ public class PlainFormatter {
         if (value.equals("true") || value.equals("false") || value.matches("-?\\d+(\\.\\d+)?")) {
             return value;
         }
-        return String.format("'%s'", value);
+        return "'" + value + "'";
     }
 }
