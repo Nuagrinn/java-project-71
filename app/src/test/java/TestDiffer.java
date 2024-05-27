@@ -23,6 +23,19 @@ public class TestDiffer {
     }
 
     @Test
+    public void testStylishYaml() throws Exception {
+
+        String data1Path = "src/test/resources/fixtures/data1.yaml";
+        String data2Path = "src/test/resources/fixtures/data2.yaml";
+
+        String result = Differ.generate(data1Path, data2Path, "stylish");
+        String testResult = normalizeNewlines(readFixture("testStylish.txt"));
+
+        assertEquals(result, testResult);
+
+    }
+
+    @Test
     public void testPlain() throws Exception {
 
         String data1Path = "src/test/resources/fixtures/data1.json";

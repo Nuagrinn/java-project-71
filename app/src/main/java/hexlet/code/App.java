@@ -10,6 +10,9 @@ import java.util.concurrent.Callable;
 @Command(name = "gendiff", description = "Compares two configuration files and shows a difference.")
 public class App implements  Callable<Integer> {
 
+    private static final int SUCCESS_CODE = 0;
+    private static final int ERROR_CODE = 1;
+
     @Option(names = {"-h", "--help"},
             description = "Show this help message and exit.", usageHelp = true)
     boolean help;
@@ -37,20 +40,19 @@ public class App implements  Callable<Integer> {
 
 
     public static void main(String[] args) {
-
-        args = new String[]{"app/src/main/java/hexlet/code/data1.json", "app/src/main/java/hexlet/code/data2.json"};
         int exitCode = new CommandLine(new App()).execute(args);
         System.exit(exitCode);
-
-
     }
 
     @Override
-    public Integer call() throws Exception {
-
-        System.out.println("--------- Generate diff! ---------");
-        System.out.println(Differ.generate(filePath1, filePath2));
-        return 0;
+    public Integer call() {
+        try {
+            System.out.println(Differ.generate(filePath1, filePath2, formatName));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return ERROR_CODE;
+        }
+        return SUCCESS_CODE;
 
     }
 
