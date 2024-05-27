@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class PlainFormatter {
 
-    public static String format(List<Map<String, String>> diff) {
+    public static String format(List<Map<String, String>> diff) throws Exception {
         StringBuilder result = new StringBuilder();
 
         for (Map<String, String> node : diff) {
@@ -18,7 +18,8 @@ public class PlainFormatter {
                 case "changed":
                     String prevValue = formatValue(node.get("prevValue"));
                     String actualValue = formatValue(node.get("actualValue"));
-                    result.append(String.format("Property '%s' was updated. From %s to %s\n", key, prevValue, actualValue));
+                    result.append(String.format("Property '%s' was updated. From %s to %s\n",
+                            key, prevValue, actualValue));
                     break;
                 case "deleted":
                     prevValue = formatValue(node.get("prevValue"));
@@ -28,6 +29,8 @@ public class PlainFormatter {
                     actualValue = formatValue(node.get("actualValue"));
                     result.append(String.format("Property '%s' was added with value: %s\n", key, actualValue));
                     break;
+                default:
+                    throw new Exception("Unexpected state");
             }
         }
 

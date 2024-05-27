@@ -13,10 +13,10 @@ public class StylishFormatter {
 
         for (var k : diff) {
             if (k.get("state").equals("notchanged")) {
-                    sb.append("\n    ").append(k.get("key")).append(": ").append(k.get("actualValue"));
+                sb.append("\n    ").append(k.get("key")).append(": ").append(k.get("actualValue"));
             } else if (k.get("state").equals("changed")) {
-                    sb.append("\n  - ").append(k.get("key")).append(": ").append(k.get("prevValue"))
-                            .append("\n  + ").append(k.get("key")).append(": ").append(k.get("actualValue"));
+                sb.append("\n  - ").append(k.get("key")).append(": ").append(k.get("prevValue"))
+                        .append("\n  + ").append(k.get("key")).append(": ").append(k.get("actualValue"));
             } else if (k.get("state").equals("deleted")) {
                 sb.append("\n  - ").append(k.get("key")).append(": ").append(k.get("prevValue"));
             } else {

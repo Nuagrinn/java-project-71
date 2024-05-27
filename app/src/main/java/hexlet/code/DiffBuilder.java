@@ -20,16 +20,14 @@ public class DiffBuilder {
                 .distinct()
                 .sorted()
                 .toList();
-        
 
         for (String k : combinedKeyList) {
-            Map<String,String> node = new HashMap<>();
+            Map<String, String> node = new HashMap<>();
             if (keySet1.contains(k) && keySet2.contains(k)) {
                 if (map1.get(k).equals(map2.get(k))) {
                     node.put("key", k);
                     node.put("state", "notchanged");
                     node.put("actualValue", map1.get(k).toString());
-                    
                 } else {
                     node.put("key", k);
                     node.put("state", "changed");
@@ -45,7 +43,6 @@ public class DiffBuilder {
                 node.put("state", "new");
                 node.put("actualValue", map2.get(k).toString());
             }
-            
             diff.add(node);
         }
 
