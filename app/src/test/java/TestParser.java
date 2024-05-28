@@ -8,7 +8,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SuppressWarnings("checkstyle:MagicNumber")
+@SuppressWarnings("MagicNumber")
 public class TestParser {
 
     private static Map<String, Object> expectedParsed = new HashMap<>();
