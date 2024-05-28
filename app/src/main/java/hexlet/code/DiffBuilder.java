@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-public class DiffBuilder {
+public final class DiffBuilder {
 
     private List<Map<String, Object>> diff = new ArrayList<>();
 

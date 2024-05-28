@@ -8,18 +8,21 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
+@SuppressWarnings("checkstyle:MagicNumber")
 public class TestParser {
 
-    static Map<String, Object> expectedParsed = new HashMap<>();
+    private static Map<String, Object> expectedParsed = new HashMap<>();
 
     @BeforeAll
     static void init() {
-
         expectedParsed.put("host", "hexlet.io");
         expectedParsed.put("timeout", 50);
         expectedParsed.put("proxy", "123.234.53.22");
         expectedParsed.put("follow", false);
+    }
+
+    public static Map<String, Object> getExpectedParsed() {
+        return expectedParsed;
     }
 
     @Test
@@ -27,8 +30,7 @@ public class TestParser {
         Parser parser = new Parser();
         String jsonPath = "src/test/resources/fixtures/data1.json";
         Map<String, Object> result = parser.getData(jsonPath);
-        assertEquals(expectedParsed, result);
-
+        assertEquals(getExpectedParsed(), result);
     }
 
     @Test
@@ -36,8 +38,7 @@ public class TestParser {
         Parser parser = new Parser();
         String yamlPath = "src/test/resources/fixtures/data1.yaml";
         Map<String, Object> result = parser.getData(yamlPath);
-        assertEquals(expectedParsed, result);
-
+        assertEquals(getExpectedParsed(), result);
     }
 
     @Test
@@ -45,9 +46,5 @@ public class TestParser {
         Parser parser = new Parser();
         String errorFilePath = "src/test/resources/fixtures/data3.txt";
         assertThrows(Exception.class, () -> parser.getData(errorFilePath));
-
     }
-
 }
-
-
