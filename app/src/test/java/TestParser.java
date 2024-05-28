@@ -8,15 +8,15 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SuppressWarnings("magicnumber")
 public class TestParser {
 
     private static Map<String, Object> expectedParsed = new HashMap<>();
+    public static final int TIMEOUT = 50;
 
     @BeforeAll
     static void init() {
         expectedParsed.put("host", "hexlet.io");
-        expectedParsed.put("timeout", 50);
+        expectedParsed.put("timeout", TIMEOUT);
         expectedParsed.put("proxy", "123.234.53.22");
         expectedParsed.put("follow", false);
     }
