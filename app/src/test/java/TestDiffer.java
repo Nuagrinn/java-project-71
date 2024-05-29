@@ -1,63 +1,84 @@
 import hexlet.code.Differ;
-
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import org.skyscreamer.jsonassert.JSONAssert;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestDiffer {
+    private static String data1PathJson;
+    private static String data2PathJson;
+    private static String data1PathYaml;
+    private static String data2PathYaml;
+
+    @BeforeAll
+    static void init() {
+        data1PathJson = "src/test/resources/fixtures/data1.json";
+        data2PathJson = "src/test/resources/fixtures/data2.json";
+        data1PathYaml = "src/test/resources/fixtures/data1.yaml";
+        data2PathYaml = "src/test/resources/fixtures/data2.yaml";
+    }
+
     @Test
-    public void testStylish() throws Exception {
-
-        String data1Path = "src/test/resources/fixtures/data1.json";
-        String data2Path = "src/test/resources/fixtures/data2.json";
-
-        String result = Differ.generate(data1Path, data2Path, "stylish");
+    public void testStylishDefaultJson() throws Exception {
+        String result = Differ.generate(data1PathJson, data2PathJson);
         String testResult = normalizeNewlines(readFixture("testStylish.txt"));
 
-        assertEquals(result, testResult);
+        assertEquals(testResult, result);
+    }
 
+    @Test
+    public void testStylishDefaultYaml() throws Exception {
+        String result = Differ.generate(data1PathYaml, data2PathYaml);
+        String testResult = normalizeNewlines(readFixture("testStylish.txt"));
+
+        assertEquals(testResult, result);
+    }
+
+    @Test
+    public void testStylishJson() throws Exception {
+        testFormatter(data1PathJson, data2PathJson, "stylish", "testStylish.txt");
     }
 
     @Test
     public void testStylishYaml() throws Exception {
-
-        String data1Path = "src/test/resources/fixtures/data1.yaml";
-        String data2Path = "src/test/resources/fixtures/data2.yaml";
-
-        String result = Differ.generate(data1Path, data2Path, "stylish");
-        String testResult = normalizeNewlines(readFixture("testStylish.txt"));
-
-        assertEquals(result, testResult);
-
+        testFormatter(data1PathYaml, data2PathYaml, "stylish", "testStylish.txt");
     }
 
     @Test
-    public void testPlain() throws Exception {
-
-        String data1Path = "src/test/resources/fixtures/data1.json";
-        String data2Path = "src/test/resources/fixtures/data2.json";
-
-        String result = Differ.generate(data1Path, data2Path, "plain");
-        String testResult = normalizeNewlines(readFixture("testPlain.txt"));
-
-        assertEquals(result, testResult);
-
+    public void testPlainJson() throws Exception {
+        testFormatter(data1PathJson, data2PathJson, "plain", "testPlain.txt");
     }
 
     @Test
-    public void testJson() throws Exception {
+    public void testPlainYaml() throws Exception {
+        testFormatter(data1PathYaml, data2PathYaml, "plain", "testPlain.txt");
+    }
 
-        String data1Path = "src/test/resources/fixtures/data1.json";
-        String data2Path = "src/test/resources/fixtures/data2.json";
+    @Test
+    public void testJsonJson() throws Exception {
+        testFormatterJson(data1PathJson, data2PathJson, "json", "testJson.json");
+    }
 
-        String result = Differ.generate(data1Path, data2Path, "json");
-        String testResult = readFixture("testJson.json");
+    @Test
+    public void testJsonYaml() throws Exception {
+        testFormatterJson(data1PathYaml, data2PathYaml, "json", "testJson.json");
+    }
 
-        JSONAssert.assertEquals(result, testResult, false);
+    private void testFormatter(String data1Path, String data2Path, String format, String expectedFile) throws Exception {
+        String result = Differ.generate(data1Path, data2Path, format);
+        String testResult = normalizeNewlines(readFixture(expectedFile));
+        assertEquals(testResult, result);
+    }
+
+    private void testFormatterJson(String data1Path, String data2Path, String format, String expectedFile) throws Exception {
+        String result = Differ.generate(data1Path, data2Path, format);
+        String testResult = readFixture(expectedFile);
+        JSONAssert.assertEquals(testResult, result, false);
     }
 
     private static String readFixture(String fileName) throws Exception {
@@ -69,5 +90,4 @@ public class TestDiffer {
     private static String normalizeNewlines(String input) {
         return input.replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
     }
-
 }

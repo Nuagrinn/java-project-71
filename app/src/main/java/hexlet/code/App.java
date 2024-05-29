@@ -29,33 +29,13 @@ public final class App implements Callable<Integer> {
 
     @Parameters(paramLabel = "filepath1",
             index = "0",
-            description = "path to first label")
+            description = "path to first file")
     private String filePath1;
 
     @Parameters(paramLabel = "filepath2",
             index = "1",
-            description = "path to second label")
+            description = "path to second file")
     private String filePath2;
-
-    public boolean isHelp() {
-        return help;
-    }
-
-    public boolean isVersion() {
-        return version;
-    }
-
-    public String getFormatName() {
-        return formatName;
-    }
-
-    public String getFilePath1() {
-        return filePath1;
-    }
-
-    public String getFilePath2() {
-        return filePath2;
-    }
 
     public static void main(String[] args) {
         int exitCode = new CommandLine(new App()).execute(args);

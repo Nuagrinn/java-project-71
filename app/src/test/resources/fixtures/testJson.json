@@ -1,28 +1,122 @@
 [
   {
-    "state": "deleted",
-    "key": "follow",
-    "prevValue": false
-  },
-  {
-    "actualValue": "hexlet.io",
+    "actualValue": [
+      "a",
+      "b",
+      "c"
+    ],
     "state": "notchanged",
-    "key": "host"
+    "key": "chars1"
   },
   {
-    "state": "deleted",
-    "key": "proxy",
-    "prevValue": "123.234.53.22"
-  },
-  {
-    "actualValue": 20,
+    "actualValue": false,
     "state": "changed",
-    "key": "timeout",
-    "prevValue": 50
+    "key": "chars2",
+    "prevValue": [
+      "d",
+      "e",
+      "f"
+    ]
   },
   {
     "actualValue": true,
+    "state": "changed",
+    "key": "checked",
+    "prevValue": false
+  },
+  {
+    "actualValue": [
+      "value1",
+      "value2"
+    ],
+    "state": "changed",
+    "key": "default",
+    "prevValue": null
+  },
+  {
+    "actualValue": null,
+    "state": "changed",
+    "key": "id",
+    "prevValue": 45
+  },
+  {
+    "state": "deleted",
+    "key": "key1",
+    "prevValue": "value1"
+  },
+  {
+    "actualValue": "value2",
     "state": "new",
-    "key": "verbose"
+    "key": "key2"
+  },
+  {
+    "actualValue": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "state": "notchanged",
+    "key": "numbers1"
+  },
+  {
+    "actualValue": [
+      22,
+      33,
+      44,
+      55
+    ],
+    "state": "changed",
+    "key": "numbers2",
+    "prevValue": [
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "state": "deleted",
+    "key": "numbers3",
+    "prevValue": [
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "actualValue": [
+      4,
+      5,
+      6
+    ],
+    "state": "new",
+    "key": "numbers4"
+  },
+  {
+    "actualValue": {
+      "nestedKey": "value",
+      "isNested": true
+    },
+    "state": "new",
+    "key": "obj1"
+  },
+  {
+    "actualValue": "Another value",
+    "state": "changed",
+    "key": "setting1",
+    "prevValue": "Some value"
+  },
+  {
+    "actualValue": 300,
+    "state": "changed",
+    "key": "setting2",
+    "prevValue": 200
+  },
+  {
+    "actualValue": "none",
+    "state": "changed",
+    "key": "setting3",
+    "prevValue": true
   }
 ]

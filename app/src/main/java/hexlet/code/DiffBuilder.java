@@ -8,46 +8,53 @@ import java.util.stream.Stream;
 
 public final class DiffBuilder {
 
-    private List<Map<String, Object>> diff = new ArrayList<>();
+    public static List<Map<String, Object>> build(Map<String, Object> map1, Map<String, Object> map2) {
+        List<Map<String, Object>> diff = new ArrayList<>();
 
-    public List<Map<String, Object>> build(Map<String, Object> map1, Map<String, Object> map2) {
-
-        var keySet1 = map1.keySet().stream().toList();
-        var keySet2 = map2.keySet().stream().toList();
-
-        List<String> combinedKeyList = Stream.concat(map1.keySet().stream(), map2.keySet().stream())
+        List<String> combinedKeys= Stream.concat(map1.keySet().stream(), map2.keySet().stream())
                 .distinct()
                 .sorted()
                 .toList();
 
-        for (String k : combinedKeyList) {
+        for (String key : combinedKeys) {
             Map<String, Object> node = new HashMap<>();
-            boolean containsKey1 = keySet1.contains(k);
-            boolean containsKey2 = keySet2.contains(k);
-            Object value1 = map1.get(k);
-            Object value2 = map2.get(k);
+            node.put("key", key);
 
-            node.put("key", k);
+            Object value1 = map1.get(key);
+            Object value2 = map2.get(key);
 
-            if (containsKey1 && containsKey2) {
-                if (value1 != null && value1.equals(value2)) {
-                    node.put("state", "notchanged");
-                    node.put("actualValue", value1);
-                } else {
-                    node.put("state", "changed");
+            String state = compareValues(value1, value2, map1.containsKey(key), map2.containsKey(key));
+            node.put("state", state);
+
+            switch (state) {
+                case "notchanged" -> node.put("actualValue", value1);
+                case "changed" -> {
                     node.put("prevValue", value1);
                     node.put("actualValue", value2);
                 }
-            } else if (containsKey1) {
-                node.put("state", "deleted");
-                node.put("prevValue", value1);
-            } else {
-                node.put("state", "new");
-                node.put("actualValue", value2);
+                case "deleted" -> node.put("prevValue", value1);
+                case "new" -> node.put("actualValue", value2);
             }
+
             diff.add(node);
         }
 
         return diff;
+    }
+
+    private static String compareValues(Object value1, Object value2, boolean containsKey1, boolean containsKey2) {
+        if (containsKey1 && containsKey2) {
+            if (value1 == null && value2 == null) {
+                return "notchanged";
+            } else if (value1 == null || !value1.equals(value2)) {
+                return "changed";
+            } else {
+                return "notchanged";
+            }
+        } else if (containsKey1) {
+            return "deleted";
+        } else {
+            return "new";
+        }
     }
 }

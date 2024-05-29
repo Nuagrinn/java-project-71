@@ -12,20 +12,21 @@ public class StylishFormatter {
         sb.append("{");
 
         for (var k : diff) {
-            if (k.get("state").equals("notchanged")) {
-                sb.append("\n    ").append(k.get("key")).append(": ").append(k.get("actualValue"));
-            } else if (k.get("state").equals("changed")) {
-                sb.append("\n  - ").append(k.get("key")).append(": ").append(k.get("prevValue"))
-                        .append("\n  + ").append(k.get("key")).append(": ").append(k.get("actualValue"));
-            } else if (k.get("state").equals("deleted")) {
-                sb.append("\n  - ").append(k.get("key")).append(": ").append(k.get("prevValue"));
-            } else {
-                sb.append("\n  + ").append(k.get("key")).append(": ").append(k.get("actualValue"));
+            String key = k.get("key").toString();
+            String state = k.get("state").toString();
+
+            switch (state) {
+                case "notchanged" -> sb.append("\n    ").append(key).append(": ").append(k.get("actualValue"));
+                case "changed" -> {
+                    sb.append("\n  - ").append(key).append(": ").append(k.get("prevValue"));
+                    sb.append("\n  + ").append(key).append(": ").append(k.get("actualValue"));
+                }
+                case "deleted" -> sb.append("\n  - ").append(key).append(": ").append(k.get("prevValue"));
+                case "new" -> sb.append("\n  + ").append(key).append(": ").append(k.get("actualValue"));
             }
         }
         sb.append("\n}");
 
         return sb.toString();
     }
-
 }
