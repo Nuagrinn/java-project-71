@@ -69,13 +69,15 @@ public class TestDiffer {
         testFormatterJson(data1PathYaml, data2PathYaml, "json", "testJson.json");
     }
 
-    private void testFormatter(String data1Path, String data2Path, String format, String expectedFile) throws Exception {
+    private void testFormatter(String data1Path, String data2Path, String format, String expectedFile)
+            throws Exception {
         String result = Differ.generate(data1Path, data2Path, format);
         String testResult = normalizeNewlines(readFixture(expectedFile));
         assertEquals(testResult, result);
     }
 
-    private void testFormatterJson(String data1Path, String data2Path, String format, String expectedFile) throws Exception {
+    private void testFormatterJson(String data1Path, String data2Path, String format, String expectedFile)
+            throws Exception {
         String result = Differ.generate(data1Path, data2Path, format);
         String testResult = readFixture(expectedFile);
         JSONAssert.assertEquals(testResult, result, false);

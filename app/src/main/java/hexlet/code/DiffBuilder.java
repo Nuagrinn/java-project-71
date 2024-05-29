@@ -8,10 +8,10 @@ import java.util.stream.Stream;
 
 public final class DiffBuilder {
 
-    public static List<Map<String, Object>> build(Map<String, Object> map1, Map<String, Object> map2) {
+    public static List<Map<String, Object>> build(Map<String, Object> map1, Map<String, Object> map2) throws Exception {
         List<Map<String, Object>> diff = new ArrayList<>();
 
-        List<String> combinedKeys= Stream.concat(map1.keySet().stream(), map2.keySet().stream())
+        List<String> combinedKeys = Stream.concat(map1.keySet().stream(), map2.keySet().stream())
                 .distinct()
                 .sorted()
                 .toList();
@@ -34,6 +34,7 @@ public final class DiffBuilder {
                 }
                 case "deleted" -> node.put("prevValue", value1);
                 case "new" -> node.put("actualValue", value2);
+                default -> throw new Exception("Wrong state");
             }
 
             diff.add(node);

@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class StylishFormatter {
 
-    public static String formatt(List<Map<String, Object>> diff) {
+    public static String formatt(List<Map<String, Object>> diff) throws Exception {
 
         StringBuilder sb = new StringBuilder();
 
@@ -23,6 +23,7 @@ public class StylishFormatter {
                 }
                 case "deleted" -> sb.append("\n  - ").append(key).append(": ").append(k.get("prevValue"));
                 case "new" -> sb.append("\n  + ").append(key).append(": ").append(k.get("actualValue"));
+                default -> throw new Exception("Wrong state for foramtting");
             }
         }
         sb.append("\n}");
