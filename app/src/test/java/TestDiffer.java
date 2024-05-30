@@ -41,42 +41,42 @@ public class TestDiffer {
 
     @Test
     public void testStylishJson() throws Exception {
-        testFormatter(data1PathJson, data2PathJson, "stylish", "testStylish.txt");
+        testDiffer(data1PathJson, data2PathJson, "stylish", "testStylish.txt");
     }
 
     @Test
     public void testStylishYaml() throws Exception {
-        testFormatter(data1PathYaml, data2PathYaml, "stylish", "testStylish.txt");
+        testDiffer(data1PathYaml, data2PathYaml, "stylish", "testStylish.txt");
     }
 
     @Test
     public void testPlainJson() throws Exception {
-        testFormatter(data1PathJson, data2PathJson, "plain", "testPlain.txt");
+        testDiffer(data1PathJson, data2PathJson, "plain", "testPlain.txt");
     }
 
     @Test
     public void testPlainYaml() throws Exception {
-        testFormatter(data1PathYaml, data2PathYaml, "plain", "testPlain.txt");
+        testDiffer(data1PathYaml, data2PathYaml, "plain", "testPlain.txt");
     }
 
     @Test
     public void testJsonJson() throws Exception {
-        testFormatterJson(data1PathJson, data2PathJson, "json", "testJson.json");
+        testDifferJson(data1PathJson, data2PathJson, "json", "testJson.json");
     }
 
     @Test
     public void testJsonYaml() throws Exception {
-        testFormatterJson(data1PathYaml, data2PathYaml, "json", "testJson.json");
+        testDifferJson(data1PathYaml, data2PathYaml, "json", "testJson.json");
     }
 
-    private void testFormatter(String data1Path, String data2Path, String format, String expectedFile)
+    private void testDiffer(String data1Path, String data2Path, String format, String expectedFile)
             throws Exception {
         String result = Differ.generate(data1Path, data2Path, format);
         String testResult = normalizeNewlines(readFixture(expectedFile));
         assertEquals(testResult, result);
     }
 
-    private void testFormatterJson(String data1Path, String data2Path, String format, String expectedFile)
+    private void testDifferJson(String data1Path, String data2Path, String format, String expectedFile)
             throws Exception {
         String result = Differ.generate(data1Path, data2Path, format);
         String testResult = readFixture(expectedFile);

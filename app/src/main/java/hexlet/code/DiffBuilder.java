@@ -8,7 +8,8 @@ import java.util.stream.Stream;
 
 public final class DiffBuilder {
 
-    public static List<Map<String, Object>> build(Map<String, Object> map1, Map<String, Object> map2) throws Exception {
+    public static List<Map<String, Object>> build(Map<String, Object> map1, Map<String, Object> map2)
+            throws Exception {
         List<Map<String, Object>> diff = new ArrayList<>();
 
         List<String> combinedKeys = Stream.concat(map1.keySet().stream(), map2.keySet().stream())
@@ -23,7 +24,7 @@ public final class DiffBuilder {
             Object value1 = map1.get(key);
             Object value2 = map2.get(key);
 
-            String state = compareValues(value1, value2, map1.containsKey(key), map2.containsKey(key));
+            String state = determineState(value1, value2, map1.containsKey(key), map2.containsKey(key));
             node.put("state", state);
 
             switch (state) {
@@ -43,15 +44,13 @@ public final class DiffBuilder {
         return diff;
     }
 
-    private static String compareValues(Object value1, Object value2, boolean containsKey1, boolean containsKey2) {
+    private static boolean compareValues(Object value1, Object value2) {
+        return (value1 == null && value2 == null) || (value1 != null && value1.equals(value2));
+    }
+
+    private static String determineState(Object value1, Object value2, boolean containsKey1, boolean containsKey2) {
         if (containsKey1 && containsKey2) {
-            if (value1 == null && value2 == null) {
-                return "notchanged";
-            } else if (value1 == null || !value1.equals(value2)) {
-                return "changed";
-            } else {
-                return "notchanged";
-            }
+            return compareValues(value1, value2) ? "notchanged" : "changed";
         } else if (containsKey1) {
             return "deleted";
         } else {
